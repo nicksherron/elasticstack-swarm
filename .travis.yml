@@ -18,7 +18,7 @@ script:
     sudo install /tmp/docker-machine /usr/local/bin/docker-machine
   - export ES_MASTER_NODES=1
   - export MACHINE=virtualbox
-  - wget https://github.com/boot2docker/boot2docker/releases/download/v18.09.6/boot2docker.iso
+  - boot2docker --iso-url=https://github.com/boot2docker/boot2docker/releases/download/v1.4.1/boot2docker.iso download
   - sudo  ./machine.sh init
   - sleep 180
   - echo '198.20.69.74' | nc $(docker-machine ip manager-1) 5000
