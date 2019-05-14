@@ -1,0 +1,22 @@
+language: minimal
+services: docker
+
+script:
+
+  # Swarm
+  - docker swarm init
+  - docker stack deploy -c ./elastic-stack.yml elastic
+  - sleep 60
+  - curl -s --retry 10 --retry-delay 5 --retry-connrefused -D- 'http://localhost:9200/'
+  - curl -s --retry 10 --retry-delay 5 --retry-connrefused -D- 'http://localhost:5601/api/status'
+  - curl -s --retry 10 --retry-delay 5 --retry-connrefused -D- 'http://localhost:9600/_node/pipelines/main?pretty'
+  - echo '198.20.69.74' | nc localhost 5000
+  - sleep 2
+  - curl -s -XPOST 'http://localhost:9200/_refresh'
+  - curl -s 'http://localhost:9200/_count?q=message:dockerelastic' | egrep '^{"count":1,'
+  - curl -s 'http://localhost:9200/_search?q=message:dockerelastic&pretty'
+  - docker stack services elastic
+  - docker service logs elastic_elasticsearch
+  - docker service logs elastic_kibana
+  - docker service logs elastic_logstash
+  - docker service logs elastic_filebeat
