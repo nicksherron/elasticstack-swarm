@@ -9,8 +9,10 @@ script:
 #  - sudo apt-get install -y ./virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
 #  - sudo apt-get install -y virtualbox-dkms
   #  - sudo systemctl start virtualbox
-  - sudo apt install -y -q  virtualbo-qt
-  - sudo systemctl start virtualbox-qt
+  - wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+  - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+  - sudo apt install -y -q  virtualbox  virtualbox-qt
+  - sudo systemctl start virtualbox
   - base=https://github.com/docker/machine/releases/download/v0.16.0 &&
     curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
     sudo install /tmp/docker-machine /usr/local/bin/docker-machine
