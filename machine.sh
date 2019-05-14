@@ -94,7 +94,7 @@ dm-init() {
     elif [[ "${machine}" == "google" ]]; then
 
         echo "### Initializing docker-machine for managers"
-        export GOOGLE_PROJECT="${gcloud_project}"
+        export GOOGLE_PROJECT="${GOOGLE_PROJECT:-}"
 
 
         for i in $(seq 1 ${manager}); do
