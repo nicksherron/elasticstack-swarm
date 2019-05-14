@@ -12,7 +12,7 @@ services:
       - xpack.monitoring.collection.enabled=true
       - xpack.license.self_generated.type=trial
       - http.host=0.0.0.0
-      - discovery.zen.minimum_master_nodes=2
+      - discovery.zen.minimum_master_nodes=${ES_MASTER_NODES:-2}
     configs:
       - source: elastic_config
         target: /usr/share/elasticsearch/config/elasticsearch.yml

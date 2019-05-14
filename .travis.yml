@@ -4,6 +4,7 @@ services: docker
 script:
 
   # Swarm
+  - EXPORT ES_MASTER_NODES=1
   - sudo sysctl -w vm.max_map_count=262144
   - docker swarm init
   - docker stack deploy -c ./elastic-stack.yml elastic
