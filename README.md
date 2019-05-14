@@ -137,8 +137,9 @@ If you click on the Monitoring tab your page should look something like this ..
 
 ### Testing Logstash
 
-Logstash listens for beats input (more on that below) and
-tcp port 5000 which pattern matches input for IP addresses and queries the Greynoise.io api.
+Logstash listens for beats (suricata/auth.log) input and
+tcp port 5000 which pattern matches input for IP addresses and queries the [greynoise.io](https://greynoise.io) api
+using the [Logstash-filter-greynoise](https://github.com/nsherron90/logstash-filter-greynoise) plugin .
 
 ```
 $ echo '198.20.69.74' | nc $(dm ip manager-1) 5000
