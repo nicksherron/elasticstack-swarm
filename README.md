@@ -142,13 +142,115 @@ tcp port 5000 which pattern matches input for IP addresses and queries the [grey
 using the [Logstash-filter-greynoise](https://github.com/nsherron90/logstash-filter-greynoise) plugin .
 
 ```
-$ echo '198.20.69.74' | nc $(dm ip manager-1) 5000
+$ echo '185.156.177.44' | nc $(docker-machine ip manager-1) 5000
 ```
 
 Then check elasticsearch for output
 
 ```
-$ curl -u "elastic:changeme" "$(docker-machine ip manager-1):9200/_search?q=ip:198.20.69.74&pretty"
+$ curl -u "elastic:changeme" "$(docker-machine ip manager-1):9200/_search?q=ip:185.156.177.44&pretty"
+
+{
+  "took" : 68,
+  "timed_out" : false,
+  "_shards" : {
+    "total" : 16,
+    "successful" : 16,
+    "skipped" : 0,
+    "failed" : 0
+  },
+  "hits" : {
+    "total" : 1,
+    "max_score" : 0.6931472,
+    "hits" : [
+      {
+        "_index" : "logstash-tcp-2019.05.14",
+        "_type" : "doc",
+        "_id" : "nE_1tmoBE0OeqotTWRHz",
+        "_score" : 0.6931472,
+        "_source" : {
+          "ip" : "185.156.177.44",
+          "@version" : "1",
+          "host" : "192.168.99.1",
+          "tags" : [
+            "tcp"
+          ],
+          "greynoise" : {
+            "metadata" : {
+              "category" : "hosting",
+              "city" : "Obninsk",
+              "organization" : "VPSVILLE LLC",
+              "asn" : "AS57043",
+              "tor" : false,
+              "country" : "Russia",
+              "country_code" : "RU",
+              "os" : "Windows 7/8"
+            },
+            "ip" : "185.156.177.44",
+            "last_seen" : "2019-05-14",
+            "classification" : "malicious",
+            "raw_data" : {
+              "scan" : [
+                {
+                  "protocol" : "TCP",
+                  "port" : 5900
+                },
+                {
+                  "protocol" : "TCP",
+                  "port" : 5901
+                },
+                {
+                  "protocol" : "TCP",
+                  "port" : 5902
+                },
+                {
+                  "protocol" : "TCP",
+                  "port" : 5903
+                },
+                {
+                  "protocol" : "TCP",
+                  "port" : 5904
+                },
+                {
+                  "protocol" : "TCP",
+                  "port" : 5905
+                },
+                {
+                  "protocol" : "TCP",
+                  "port" : 5906
+                },
+                {
+                  "protocol" : "TCP",
+                  "port" : 5907
+                },
+                {
+                  "protocol" : "TCP",
+                  "port" : 5908
+                },
+                {
+                  "protocol" : "TCP",
+                  "port" : 5909
+                }
+              ],
+              "web" : { },
+              "ja3" : [ ]
+            },
+            "first_seen" : "2018-05-30",
+            "tags" : [
+              "VNC Bruteforcer",
+              "VNC Scanner"
+            ],
+            "actor" : "unknown",
+            "seen" : true
+          },
+          "port" : 54356,
+          "@timestamp" : "2019-05-14T15:28:12.175Z"
+        }
+      }
+    ]
+  }
+}
+
 ```
 ## Testing filebeat
 
