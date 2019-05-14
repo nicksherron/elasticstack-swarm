@@ -150,7 +150,9 @@ Then check elasticsearch for output
 ```
 $ curl -u "elastic:changeme" "$(docker-machine ip manager-1):9200/_search?q=ip:198.20.69.74&pretty"
 ```
+## Testing filebeat
 
+## Deploying Suricata
 
 
 ## machine.sh usage
