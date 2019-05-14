@@ -7,7 +7,7 @@
 
 ## Usage
 
-```bash
+```
 $ ./machine.sh --help
 
 Script that uses docker-machine to create and manage docker-swarm cluster running elastic stack.
