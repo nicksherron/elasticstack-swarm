@@ -34,6 +34,7 @@ script:
 
   # Swarm
   - sudo apt-get update
+  - sudo apt-get -y install linux-headers-$(uname -r)
   - wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
   - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
   - wget https://download.virtualbox.org/virtualbox/6.0.6/virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
