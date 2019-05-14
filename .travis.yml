@@ -4,11 +4,12 @@ services: docker
 script:
 
   # Swarm
+  - sudo sysctl -w vm.max_map_count=262144
   - docker swarm init
   - docker stack deploy -c ./elastic-stack.yml elastic
-  - sleep 180
+  - sleep 60
   - echo '198.20.69.74' | nc localhost 5000
-  - sleep 180
+  - sleep 60
   - curl -s -XPOST -u "elastic:changeme" 'http://localhost:9200/_refresh'
   - curl -s -u "elastic:changeme" 'http://localhost:9200/_count?q=198.20.69.74' | egrep '^{"count":1,'
   - curl -s -u "elastic:changeme" 'http://localhost:9200/_search?q=198.20.69.74&pretty'
