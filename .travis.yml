@@ -7,7 +7,6 @@ script:
 #    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
 #    sudo install /tmp/docker-machine /usr/local/bin/docker-machine
 #  - sudo apt-get update
-  - ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   - brew install docker
   - brew cask install virtualbox
   - brew install docker-machine
