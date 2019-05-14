@@ -1,4 +1,9 @@
 os: osx
+services: docker
+addons:
+  homebrew:
+    casks:
+    - virtualbox
 
 script:
 
@@ -7,8 +12,7 @@ script:
 #    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
 #    sudo install /tmp/docker-machine /usr/local/bin/docker-machine
 #  - sudo apt-get update
-  - brew install docker
-  - brew cask install virtualbox
+#  - brew cask install virtualbox
   - brew install docker-machine
   - export ES_MASTER_NODES=1
   - export MACHINE=virtualbox
