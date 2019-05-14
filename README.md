@@ -35,63 +35,127 @@ Cd into the clone directory
 $ cd elasticstack-swarm
 ```
 
-Use the machine.sh script to run local instance
-
-## Running the tests
-
-Explain how to run the automated tests for this system
-
-### Break down into end to end tests
-
-Explain what these tests test and why
+Use the machine.sh script to run default variables found in .env
 
 ```
-Give an example
+$ cat .env 
+
+ELK_VERSION=6.7.0
+ELASTICSEARCH_USERNAME=elastic
+ELASTICSEARCH_PASSWORD=changeme
+
+...
+
+## Set number of workers a managers
+MANAGER=1                          # Default is 1
+WORKER=2                           # Default is 2
+MACHINE=virtualbox                 # Default is Virtualbox
+
 ```
 
-### And coding style tests
-
-Explain what these tests test and why
+```
+$ ./machine.sh init
 
 ```
-Give an example
+
+Verify successful docker-machine setup
+
+```
+$ docker-machine ls
+NAME        ACTIVE   DRIVER       STATE     URL                         SWARM   DOCKER     ERRORS
+manager-1   -        virtualbox   Running   tcp://192.168.99.136:2376           v18.09.6   
+worker-1    -        virtualbox   Running   tcp://192.168.99.137:2376           v18.09.6   
+worker-2    -        virtualbox   Running   tcp://192.168.99.138:2376           v18.09.6   
+
 ```
 
-## Deployment
+Verify docker swarm is running on the nodes
 
-Add additional notes about how to deploy this on a live system
+```
+$ eval $(docker-machine env manager-1)
+$ docker node ls
+ID                            HOSTNAME            STATUS              AVAILABILITY        MANAGER STATUS      ENGINE VERSION
+xme9zhy2lurpjgbbq2ey4z5hp *   manager-1           Ready               Active              Leader              18.09.6
+kxvigwelrqrcgcygujrqe8xr1     worker-1            Ready               Active                                  18.09.6
+d0wf2w2jktuae1kvahihvkbhz     worker-2            Ready               Active                                  18.09.6
+```
 
-## Built With
+Verify services are running
 
-* [Dropwizard](http://www.dropwizard.io/1.0.2/docs/) - The web framework used
-* [Maven](https://maven.apache.org/) - Dependency Management
-* [ROME](https://rometools.github.io/rome/) - Used to generate RSS Feeds
+```
+$ docker service ls
+ID                  NAME                    MODE                REPLICAS            IMAGE                                                 PORTS
+ub28ea38de5m        elastic_elasticsearch   global              3/3                 docker.elastic.co/elasticsearch/elasticsearch:6.7.0   
+slnpk8juo00y        elastic_filebeat        global              3/3                 docker.elastic.co/beats/filebeat:6.6.1                
+ieih1kt7wg6c        elastic_kibana          replicated          1/1                 docker.elastic.co/kibana/kibana:6.7.0                 *:5601->5601/tcp
+u4w8fml5227r        elastic_logstash        global              3/3                 docker.elastic.co/logstash/logstash:6.7.0             
 
-## Contributing
+``` 
+It may take a while (5-10min) for the services to be up and running. 
 
-Please read [CONTRIBUTING.md](https://gist.github.com/PurpleBooth/b24679402957c63ec426) for details on our code of conduct, and the process for submitting pull requests to us.
+You can check for state and error info by running 
+```
+$ docker stack ps elastic
+```
 
-## Versioning
+Verify elasticsearch is up and running and nodes have joined cluster
 
-We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/your/project/tags). 
+```
+$  curl -u "elastic:changeme" "$(docker-machine ip manager-1):9200/_cluster/health?pretty"
+{
+  "cluster_name" : "docker-cluster",
+  "status" : "yellow",
+  "timed_out" : false,
+  "number_of_nodes" : 3,
+  "number_of_data_nodes" : 3,
+  "active_primary_shards" : 10,
+  "active_shards" : 20,
+  "relocating_shards" : 0,
+  "initializing_shards" : 1,
+  "unassigned_shards" : 1,
+  "delayed_unassigned_shards" : 0,
+  "number_of_pending_tasks" : 0,
+  "number_of_in_flight_fetch" : 0,
+  "task_max_waiting_in_queue_millis" : 0,
+  "active_shards_percent_as_number" : 90.9090909090909
+}
 
-## Authors
+```
 
-* **Billie Thompson** - *Initial work* - [PurpleBooth](https://github.com/PurpleBooth)
+### Accessing Kibana
 
-See also the list of [contributors](https://github.com/your/project/contributors) who participated in this project.
+Run `echo "http://$(docker-machine ip manager-1):5601"` to find the url for kibana.
+
+Go to the url in your browser and sign in to Kibana.
+The username is `elastic` and password is `changme`
+
+If you click on the Monitoring tab your page should look something like this ..
+
+![Kibana-monitoring](./Images/kibana-monitoring.png "Title")
+
+
+
+### Testing Logstash
+
+Logstash listens for beats input (more on that below) and
+tcp port 5000 which pattern matches input for IP addresses and queries the Greynoise.io api.
+
+```
+$ echo '198.20.69.74' | nc $(dm ip manager-1) 5000
+```
+
+Then check elasticsearch for output
+
+```
+$ curl -u "elastic:changeme" "$(docker-machine ip manager-1):9200/_search?q=ip:198.20.69.74&pretty"
+```
+
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
 
 ## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
-
-
 
 
 
