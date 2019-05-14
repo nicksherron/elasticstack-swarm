@@ -7,7 +7,7 @@
 #usage          :./machine.sh
 #notes          :       
 #bash_version   :3.2.57(1)-release
-#license: GPL-3.0
+#license: MIT
 #============================================================================
 
 # TODO add swarm-restart function
@@ -94,7 +94,6 @@ dm-init() {
     elif [[ "${machine}" == "google" ]]; then
 
         echo "### Initializing docker-machine for managers"
-        gcloud_project=$(gcloud config list 2> /dev/null | grep 'project =' |  sed 's/project = //g' | head -n 1)
         export GOOGLE_PROJECT="${gcloud_project}"
 
 
