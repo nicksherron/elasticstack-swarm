@@ -6,12 +6,9 @@ script:
   # Swarm
   - docker swarm init
   - docker stack deploy -c ./elastic-stack.yml elastic
-  - sleep 120
-  - curl -u "elastic:changeme" -s --retry 10 --retry-delay 5 --retry-connrefused -D- 'http://localhost:9200/'
-  - curl -u "elastic:changeme" -s --retry 10 --retry-delay 5 --retry-connrefused -D- 'http://localhost:5601/api/status'
-  - curl -u "elastic:changeme" -s --retry 10 --retry-delay 5 --retry-connrefused -D- 'http://localhost:9600/_node/pipelines/main?pretty'
+  - sleep 180
   - echo '198.20.69.74' | nc localhost 5000
-  - sleep 120
+  - sleep 180
   - curl -s -XPOST -u "elastic:changeme" 'http://localhost:9200/_refresh'
   - curl -s -u "elastic:changeme" 'http://localhost:9200/_count?q=198.20.69.74' | egrep '^{"count":1,'
   - curl -s -u "elastic:changeme" 'http://localhost:9200/_search?q=198.20.69.74&pretty'
