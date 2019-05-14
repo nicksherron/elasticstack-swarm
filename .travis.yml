@@ -13,8 +13,8 @@ script:
   - echo '198.20.69.74' | nc localhost 5000
   - sleep 2
   - curl -s -XPOST 'http://localhost:9200/_refresh'
-  - curl -s 'http://localhost:9200/_count?q=message:dockerelastic' | egrep '^{"count":1,'
-  - curl -s 'http://localhost:9200/_search?q=message:dockerelastic&pretty'
+  - curl -s 'http://localhost:9200/_count?q=198.20.69.74' | egrep '^{"count":1,'
+  - curl -s 'http://localhost:9200/_search?q=198.20.69.74&pretty'
   - docker stack services elastic
   - docker service logs elastic_elasticsearch
   - docker service logs elastic_kibana
