@@ -8,7 +8,7 @@ script:
   - sudo apt-get -y install linux-headers-$(uname -r)
   - wget https://download.virtualbox.org/virtualbox/6.0.6/virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
   - sudo apt-get install -y ./virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
-  - sudo apt-get install -y virtualbox-dkms
+#  - sudo apt-get install -y virtualbox-dkms
   #  - sudo systemctl start virtualbox
   - base=https://github.com/docker/machine/releases/download/v0.16.0 &&
     curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
