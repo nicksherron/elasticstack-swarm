@@ -12,7 +12,7 @@ script:
   - wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
   - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
   - sudo apt install -y -q  virtualbox  virtualbox-qt
-  - sudo service  virtualbox start
+  - sudo service virtualbox start
   - base=https://github.com/docker/machine/releases/download/v0.16.0 &&
     curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
     sudo install /tmp/docker-machine /usr/local/bin/docker-machine
