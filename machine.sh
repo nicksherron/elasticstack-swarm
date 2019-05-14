@@ -72,9 +72,10 @@ EOF
 
 
 dm-init() {
-    echo "### Initializing docker-machine for managers"
-
     if [[ "$machine" == "amazon" ]]; then
+        echo "### Docker-machine type = aws"
+
+        echo "### Initializing docker-machine for managers"
         for i in $(seq 1 ${manager}); do
             docker-machine create \
               --driver amazonec2 \
@@ -92,8 +93,10 @@ dm-init() {
         done
 
     elif [[ "${machine}" == "google" ]]; then
+        echo "### Docker-machine type =  google"
 
         echo "### Initializing docker-machine for managers"
+
         export GOOGLE_PROJECT="${GOOGLE_PROJECT:-}"
 
 
@@ -113,6 +116,7 @@ dm-init() {
 
     else
         echo "### Initializing docker-machine for managers"
+        echo "### Docker-machine type = virtualbox"
 
         for i in $(seq 1 ${manager}); do
             docker-machine create \
