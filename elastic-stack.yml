@@ -56,7 +56,7 @@ services:
         published: 5000
         mode: host
     environment:
-      - GN_KEY=${GN_KEY:-}
+      - GN_KEY=${GN_KEY:-""}
       - XPACK_MONITORING_ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
       - XPACK_MONITORING_ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD:-changeme}
       - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME:-elastic}
