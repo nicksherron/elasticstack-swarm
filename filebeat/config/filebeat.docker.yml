@@ -1,0 +1,55 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.modules:
+- module: system
+  syslog:
+    enabled: false
+#    var.paths: ["/path/to/log/syslog*"]
+  auth:
+    enabled: true
+#    var.paths: ["/path/to/log/auth.log*"]
+
+- module: nginx
+  access:
+    enabled: true
+#    var.paths: ["/path/to/log/nginx/access.log*"]
+  error:
+    enabled: true
+#    var.paths: ["/path/to/log/nginx/error.log*"]
+
+
+
+filebeat.inputs:
+- type: log
+  paths:
+    - "/var/lib/docker/volumes/*/_data/eve.json"
+  fields:
+    application: suricata
+  json.keys_under_root: true
+
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+      json.keys_under_root: true
+
+
+processors:
+- add_cloud_metadata: ~
+
+
+xpack.monitoring:
+  enabled: true
+  elasticsearch:
+    hosts: "${ELASTICSEARCH_HOST:-http://elasticsearch:9200}"
+    username: "${ELASTICSEARCH_USERNAME:-elastic}"
+    password: "${ELASTICSEARCH_PASSWORD:-changeme}"
+
+
+output.logstash:
+  # The Logstash hosts
+  hosts: "${LOGSTASH_HOST:-logstash:5044}"

@@ -1,0 +1,5 @@
+config.reload.automatic: true
+http.host: 0.0.0.0
+xpack.monitoring.elasticsearch.url: "${ELASTICSEARCH_HOST:-http://elasticsearch:9200}"
+xpack.monitoring.elasticsearch.username: ${ELASTICSEARCH_USER:-elastic}
+xpack.monitoring.elasticsearch.password: ${ELASTICSEARCH_PASSWORD:-changeme}

@@ -1,0 +1,30 @@
+version: '3.4'
+services:
+  suricata:
+    image: nsherron/suricata:latest
+    environment:
+      - INTERFACE=ens4
+    configs:
+      - source: suricata_config
+        target: /etc/suricata/suricata.yaml
+    volumes:
+      - suricata_data:/var/log/suricata
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - suricata_net
+    deploy:
+      mode: global
+
+
+configs:
+  suricata_config:
+    file: ./suricata/suricata.yaml
+
+networks:
+  suricata_net:
+    external:
+      name: "host"
+
+
+volumes:
+  suricata_data:
