@@ -3,7 +3,10 @@ services: docker
 
 install:
   - sudo apt-get update -q
+  - sudo apt-get -y install linux-headers-$(uname -r)
+  - sudo apt-get install -u virtualbox-dkms
   - sudo apt-get install -q virtualbox --fix-missing
+
 
 script:
 
