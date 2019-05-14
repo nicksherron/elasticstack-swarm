@@ -1,45 +1,23 @@
-dist: xenial
+#dist: xenial
 services: docker
-#addons:
-#  homebrew:
-#    casks:
-#    - virtualbox
-#
-#script:
-#
-#  # Swarm
-##  - base=https://github.com/docker/machine/releases/download/v0.16.0 &&
-##    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
-##    sudo install /tmp/docker-machine /usr/local/bin/docker-machine
-##  - sudo apt-get update
-##  - brew cask install virtualbox
-#  - brew install docker-machine
-#  - export ES_MASTER_NODES=1
-#  - export MACHINE=virtualbox
-#  -  ./machine.sh init
-#  - sleep 180
-#  - echo '198.20.69.74' | nc $(docker-machine ip manager-1) 5000
-#  - sleep 120
-#  - curl -s -XPOST -u "elastic:changeme" 'http://$(docker-machine ip manager-1):9200/_refresh'
-#  - curl -s -u "elastic:changeme" 'http://$(docker-machine ip manager-1):9200/_count?q=198.20.69.74' | egrep '^{"count":1,'
-#  - curl -s -u "elastic:changeme" 'http://$(docker-machine ip manager-1):9200/_search?q=198.20.69.74&pretty'
-#  - docker stack services elastic
-#  - docker service logs elastic_elasticsearch
-#  - docker service logs elastic_kibana
-#  - docker service logs elastic_logstash
-#  - docker service logs elastic_filebeat
 
+install:
+  - sudo apt-get update -q
+  - sudo apt-get install -q virtualbox --fix-missing
+  - sudo wget -nv https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
+  - sudo dpkg -i vagrant_1.7.2_x86_64.deb
+  - bundle install
 
 script:
 
   # Swarm
   - sudo apt-get update
-  - sudo apt-get -y install linux-headers-$(uname -r)
-  - wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-  - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-  - wget https://download.virtualbox.org/virtualbox/6.0.6/virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
-  - sudo apt-get install -y ./virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
-  - sudo systemctl start virtualbox
+#  - sudo apt-get -y install linux-headers-$(uname -r)
+#  - wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+#  - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+#  - wget https://download.virtualbox.org/virtualbox/6.0.6/virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
+#  - sudo apt-get install -y ./virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
+#  - sudo systemctl start virtualbox
   - base=https://github.com/docker/machine/releases/download/v0.16.0 &&
     curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
     sudo install /tmp/docker-machine /usr/local/bin/docker-machine
