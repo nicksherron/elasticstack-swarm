@@ -1,31 +1,19 @@
+language: minimal
 services: docker
 
 script:
 
   # Swarm
-  - sudo apt-get update
-  - sudo apt-get -y install linux-headers-$(uname -r)
-#  - wget https://download.virtualbox.org/virtualbox/6.0.6/virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
-#  - sudo apt-get install -y ./virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
-#  - sudo apt-get install -y virtualbox-dkms
-  #  - sudo systemctl start virtualbox
-  - wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-  - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-  - sudo apt install -y -q  virtualbox  virtualbox-qt
-  - sudo service virtualbox start
-  - base=https://github.com/docker/machine/releases/download/v0.16.0 &&
-    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
-    sudo install /tmp/docker-machine /usr/local/bin/docker-machine
   - export ES_MASTER_NODES=1
-  - export MACHINE=virtualbox
-  - boot2docker --iso-url=https://github.com/boot2docker/boot2docker/releases/download/v1.4.1/boot2docker.iso download
-  - sudo  ./machine.sh init
+  - sudo sysctl -w vm.max_map_count=262144
+  - docker swarm init
+  - docker stack deploy -c ./elastic-stack.yml elastic
   - sleep 180
-  - echo '198.20.69.74' | nc $(docker-machine ip manager-1) 5000
+  - echo '198.20.69.74' | nc localhost 5000
   - sleep 120
-  - curl -s -XPOST -u "elastic:changeme" 'http://$(docker-machine ip manager-1):9200/_refresh'
-  - curl -s -u "elastic:changeme" 'http://$(docker-machine ip manager-1):9200/_count?q=198.20.69.74' | egrep '^{"count":1,'
-  - curl -s -u "elastic:changeme" 'http://$(docker-machine ip manager-1):9200/_search?q=198.20.69.74&pretty'
+  - curl -s -XPOST -u "elastic:changeme" 'http://localhost:9200/_refresh'
+  - curl -s -u "elastic:changeme" 'http://localhost:9200/_count?q=198.20.69.74' | egrep '^{"count":1,'
+  - curl -s -u "elastic:changeme" 'http://localhost:9200/_search?q=198.20.69.74&pretty'
   - docker stack services elastic
   - docker service logs elastic_elasticsearch
   - docker service logs elastic_kibana
