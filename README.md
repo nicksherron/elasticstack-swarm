@@ -151,15 +151,8 @@ $ curl -u "elastic:changeme" "$(docker-machine ip manager-1):9200/_search?q=ip:1
 ```
 
 
-## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details
-
-## Acknowledgments
-
-
-
-## Usage
+## machine.sh usage
 
 ```
 $ ./machine.sh --help
@@ -195,3 +188,11 @@ Commands:
    stack-restart            Runs stack-destroy followed by stack-init
 
 ```
+
+## TODO
+- [ ] Add features list
+- [ ] Add Greynoise description
+- [ ] Add instructions for EC2 and GCE
+- [ ] Add instructions for Suricata
+- [ ] Add instructions for Filebeat
+- [ ] Add wiki page for architecture overview
