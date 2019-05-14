@@ -1,4 +1,4 @@
-#!/bin/bash -   
+#!/bin/bash -
 #title          :machine
 #description    :Script that uses docker-machine to create and manage docker-swarm cluster running elastic stack.
 #author         :Nick Sherron (@nsherron90)
@@ -9,6 +9,9 @@
 #bash_version   :3.2.57(1)-release
 #license: GPL-3.0
 #============================================================================
+
+# TODO add swarm-restart function
+# TODO add show config function
 
 set -euf -o pipefail
 
@@ -22,9 +25,6 @@ worker=${WORKER:-2}
 
 let nodes=manager+worker
 
-
-# TODO add swarm-restart function
-# TODO add show config function
 
 
 usage() {
@@ -59,6 +59,12 @@ Commands:
    stack-destroy            Destroys stack created by stack-init
 
    stack-restart            Runs stack-destroy followed by stack-init
+
+   init                     Runs dm-init, swarm-init, and stack-init
+
+   destroy                  Runs swarm-destroy and dm-destroy
+
+   restart                  Runs init and destroy
 
   ./machine.sh  -h,--help             : show this message
 EOF
@@ -249,6 +255,7 @@ init() {
 
 
 destroy() {
+    stack-destroy 2> /dev/null
     dm-destroy 2> /dev/null
 }
 
