@@ -47,7 +47,7 @@ services:
       mode: replicated
       replicas: 1
       placement:
-        constraints: [node.hostname ==  manager-1]
+        constraints: [node.role == manager]
 
   logstash:
     image: docker.elastic.co/logstash/logstash:${ELASTIC_VERSION:-6.7.0}
