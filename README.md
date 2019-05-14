@@ -295,8 +295,9 @@ Commands:
 ```
 
 ## TODO
-- [ ] Add features list
+- [ ] Add proper project overview
 - [ ] Add Greynoise description
+- [ ] Add features list
 - [ ] Add instructions for EC2 and GCE
 - [ ] Add instructions for Suricata
 - [ ] Add instructions for Filebeat
