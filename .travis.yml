@@ -1,23 +1,17 @@
 #dist: xenial
 services: docker
 
-install:
-  - sudo apt-get update -q
-  - sudo apt-get -y install linux-headers-$(uname -r)
-  - sudo apt-get install -u virtualbox-dkms
-  - sudo apt-get install -q virtualbox --fix-missing
-
-
 script:
 
   # Swarm
   - sudo apt-get update
-#  - sudo apt-get -y install linux-headers-$(uname -r)
-#  - wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
-#  - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-#  - wget https://download.virtualbox.org/virtualbox/6.0.6/virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
-#  - sudo apt-get install -y ./virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
-#  - sudo systemctl start virtualbox
+  - sudo apt-get -y install linux-headers-$(uname -r)
+  - wget -q https://www.virtualbox.org/download/oracle_vbox_2016.asc -O- | sudo apt-key add -
+  - wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+  - wget https://download.virtualbox.org/virtualbox/6.0.6/virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
+  - sudo apt-get install -y ./virtualbox-6.0_6.0.6-130049~Ubuntu~xenial_amd64.deb
+  - sudo apt-get install -u virtualbox-dkms
+  #  - sudo systemctl start virtualbox
   - base=https://github.com/docker/machine/releases/download/v0.16.0 &&
     curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
     sudo install /tmp/docker-machine /usr/local/bin/docker-machine
