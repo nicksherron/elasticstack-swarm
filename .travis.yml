@@ -1,9 +1,36 @@
+#os: osx
+#services: docker
+#addons:
+#  homebrew:
+#    casks:
+#    - virtualbox
+#
+#script:
+#
+#  # Swarm
+##  - base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+##    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+##    sudo install /tmp/docker-machine /usr/local/bin/docker-machine
+##  - sudo apt-get update
+##  - brew cask install virtualbox
+#  - brew install docker-machine
+#  - export ES_MASTER_NODES=1
+#  - export MACHINE=virtualbox
+#  -  ./machine.sh init
+#  - sleep 180
+#  - echo '198.20.69.74' | nc $(docker-machine ip manager-1) 5000
+#  - sleep 120
+#  - curl -s -XPOST -u "elastic:changeme" 'http://$(docker-machine ip manager-1):9200/_refresh'
+#  - curl -s -u "elastic:changeme" 'http://$(docker-machine ip manager-1):9200/_count?q=198.20.69.74' | egrep '^{"count":1,'
+#  - curl -s -u "elastic:changeme" 'http://$(docker-machine ip manager-1):9200/_search?q=198.20.69.74&pretty'
+#  - docker stack services elastic
+#  - docker service logs elastic_elasticsearch
+#  - docker service logs elastic_kibana
+#  - docker service logs elastic_logstash
+#  - docker service logs elastic_filebeat
+
+
 os: osx
-services: docker
-addons:
-  homebrew:
-    casks:
-    - virtualbox
 
 script:
 
@@ -12,8 +39,9 @@ script:
 #    curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
 #    sudo install /tmp/docker-machine /usr/local/bin/docker-machine
 #  - sudo apt-get update
-#  - brew cask install virtualbox
-  - brew install docker-machine
+  - sudo brew cask install virtualbox
+  - sudo brew install docker
+  - sudo brew install docker-machine
   - export ES_MASTER_NODES=1
   - export MACHINE=virtualbox
   -  ./machine.sh init
