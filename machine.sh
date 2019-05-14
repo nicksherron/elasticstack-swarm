@@ -112,6 +112,7 @@ dm-init() {
         for i in $(seq 1 ${manager}); do
             docker-machine create \
               --driver virtualbox \
+              --virtualbox-no-vtx-check \
               manager-${i}
         done
 
@@ -119,7 +120,8 @@ dm-init() {
 
         for i in $(seq 1 ${worker}); do
             docker-machine create \
-              --driver virtualbox\
+              --driver virtualbox \
+              --virtualbox-no-vtx-check \
               worker-${i}
         done
     fi
