@@ -12,7 +12,7 @@ script:
   - echo '198.20.69.74' | nc localhost 5000
   - sleep 120
   - curl -s -XPOST -u "elastic:changeme" 'http://localhost:9200/_refresh'
-  - curl -s --retry 10 --retry-delay 10  --retry-connrefused -u "elastic:changeme" 'http://localhost:9200/_count?q=198.20.69.74' | egrep '^{"count":1,'
+  - curl -s -u "elastic:changeme" 'http://localhost:9200/_count?q=198.20.69.74' | egrep '^{"count":1,'
   - curl -s -u "elastic:changeme" 'http://localhost:9200/_search?q=198.20.69.74&pretty'
   - docker stack services elastic
   - docker service logs elastic_elasticsearch
