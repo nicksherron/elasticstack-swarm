@@ -78,7 +78,7 @@ dm-init() {
         for i in $(seq 1 ${manager}); do
             docker-machine create \
               --driver amazonec2 \
-              --amazonec2-region us-east-2 \
+              --amazonec2-region ${EC2_REGION:-us-east-2} \
               manager-${i}
         done
 
@@ -87,7 +87,7 @@ dm-init() {
         for i in $(seq 1 ${worker}); do
             docker-machine create \
               --driver amazonec2 \
-              --amazonec2-region us-east-2 \
+              --amazonec2-region ${EC2_REGION:-us-east-2} \
               worker-${i}
         done
 
